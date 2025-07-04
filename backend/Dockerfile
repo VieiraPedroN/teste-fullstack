@@ -12,6 +12,5 @@ FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production
-RUN npm install -g @nestjs/cli --only=production
 COPY --from=builder /app/dist ./dist
 CMD ["node", "dist/main"]
