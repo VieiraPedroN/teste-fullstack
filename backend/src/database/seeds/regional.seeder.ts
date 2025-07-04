@@ -27,9 +27,9 @@ export async function seedRegionais(dataSource: DataSource): Promise<void> {
     if (!existe) {
       const nova = repo.create({ nome });
       await repo.save(nova);
-      console.log(`✅ Regional inserida: ${nome}`);
+      console.log(`Regional inserida: ${nome}`);
     } else {
-      console.log(`🔁 Regional já existe: ${nome}`);
+      console.log(`Regional já existe: ${nome}`);
     }
   }
 }

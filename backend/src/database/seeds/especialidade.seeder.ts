@@ -24,9 +24,9 @@ export async function seedEspecialidades(
     if (!existe) {
       const nova = repo.create({ nome });
       await repo.save(nova);
-      console.log(`✅ Especialidade inserida: ${nome}`);
+      console.log(`Especialidade inserida: ${nome}`);
     } else {
-      console.log(`🔁 Especialidade já existe: ${nome}`);
+      console.log(`Especialidade já existe: ${nome}`);
     }
   }
 }

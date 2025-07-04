@@ -1,8 +1,11 @@
-import 'reflect-metadata';
 import { DataSource } from 'typeorm';
+import * as dotenv from 'dotenv';
 import { Regional } from '../regional/entities/regional.entity';
-import { Especialidade } from '../especialidade/entities/especialidade.entity';
 import { Clinica } from '../clinica/entities/clinica.entity';
+import { Especialidade } from '../especialidade/entities/especialidade.entity';
+import { Usuario } from '../usuario/entities/usuario.entity';
+
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,7 +14,6 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  logging: false,
-  entities: [Regional, Especialidade, Clinica],
-  migrations: ['src/migrations/*.ts'],
+  entities: [Regional, Clinica, Especialidade, Usuario],
+  migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
 });
