@@ -13,6 +13,8 @@ import { EspecialidadeModule } from './especialidade/especialidade.module';
 import { RegionalService } from './regional/regional.service';
 import { RegionalModule } from './regional/regional.module';
 import { UsuarioModule } from './usuario/usuario.module';
+//import { AutenticacaoService } from './autenticacao/autenticacao.service';
+import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { UsuarioModule } from './usuario/usuario.module';
     EspecialidadeModule,
     RegionalModule,
     UsuarioModule,
+    AutenticacaoModule,
   ],
   controllers: [
     AppController,
@@ -42,6 +45,6 @@ import { UsuarioModule } from './usuario/usuario.module';
     RegionalController,
     UsuarioController,
   ],
-  providers: [AppService, ClinicaService, RegionalService],
+  providers: [AppService, ClinicaService, RegionalService], //AutenticacaoService],
 })
 export class AppModule {}
