@@ -25,18 +25,25 @@ export class ClinicaService {
     private especialidadeRepository: Repository<Especialidade>,
   ) {}
 
+  private async findEspecialidades(
+    especialidadeIds?: string[],
+  ): Promise<Especialidade[]> {
+    if (!especialidadeIds || especialidadeIds.length === 0) {
+      return [];
+    }
+
+    return this.especialidadeRepository.find({
+      where: { id: In(especialidadeIds) },
+    });
+  }
+
   async create(dto: CreateClinicaDto): Promise<Clinica> {
     const regional = await this.regionalRepository.findOne({
       where: { id: dto.regional_id },
     });
     if (!regional) throw new BadRequestException('Regional não encontrada');
 
-    const especialidades =
-      dto.especialidade_id && dto.especialidade_id.length > 0
-        ? await this.especialidadeRepository.find({
-            where: { id: In(dto.especialidade_id) },
-          })
-        : [];
+    const especialidades = await this.findEspecialidades(dto.especialidade_id);
 
     const clinica = this.clinicaRepository.create({
       ...dto,
@@ -95,12 +102,7 @@ export class ClinicaService {
     });
     if (!regional) throw new BadRequestException('Regional não encontrada');
 
-    const especialidades =
-      dto.especialidade_id && dto.especialidade_id.length > 0
-        ? await this.especialidadeRepository.find({
-            where: { id: In(dto.especialidade_id) },
-          })
-        : [];
+    const especialidades = await this.findEspecialidades(dto.especialidade_id);
 
     Object.assign(clinica, {
       ...dto,
