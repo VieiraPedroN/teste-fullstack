@@ -32,8 +32,10 @@ export class ClinicaService {
     if (!regional) throw new BadRequestException('Regional não encontrada');
 
     const especialidades =
-      dto.especialidade_id?.length > 0
-        ? await this.especialidadeRepository.findByIds(dto.especialidade_id)
+      dto.especialidade_id && dto.especialidade_id.length > 0
+        ? await this.especialidadeRepository.find({
+            where: { id: In(dto.especialidade_id) },
+          })
         : [];
 
     const clinica = this.clinicaRepository.create({
