@@ -4,7 +4,7 @@ export class TabelaUsuario1751595064090 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TYPE tipo_usuario AS ENUM ('ADMIN', 'USER');
-      CREATE TABLE usuario (
+      CREATE TABLE usuarios (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         nome VARCHAR(100) NOT NULL,
         email VARCHAR(150) UNIQUE NOT NULL,
@@ -14,12 +14,12 @@ export class TabelaUsuario1751595064090 implements MigrationInterface {
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now()
       );
-      CREATE INDEX idx_usuario_email ON usuario(email);
+      CREATE INDEX idx_usuarios_email ON usuarios(email);
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE IF EXISTS usuario;`);
+    await queryRunner.query(`DROP TABLE IF EXISTS usuarios;`);
     await queryRunner.query(`DROP TYPE IF EXISTS tipo_usuario;`);
   }
 }

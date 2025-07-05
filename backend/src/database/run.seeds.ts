@@ -19,5 +19,5 @@ export async function runSeeds() {
   }
 }
 if (require.main === module) {
-  runSeeds();
+  void runSeeds();
 }

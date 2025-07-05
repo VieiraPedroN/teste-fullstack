@@ -23,7 +23,9 @@ services:
   nestapp:
     volumes:
       - ./:/app
-    build: .
+    build:
+      context: .
+      target: development
     container_name: nest_backend
     ports:
       - '3000:3000'
