@@ -1,20 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsuarioModule } from './usuario/usuario.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ClinicaService } from './clinica/clinica.service';
-import { ClinicaController } from './clinica/clinica.controller';
 import { ClinicaModule } from './clinica/clinica.module';
-import { EspecialidadeController } from './especialidade/especialidade.controller';
-import { RegionalController } from './regional/regional.controller';
-import { UsuarioController } from './usuario/usuario.controller';
-import { EspecialidadeModule } from './especialidade/especialidade.module';
-import { RegionalService } from './regional/regional.service';
 import { RegionalModule } from './regional/regional.module';
-import { UsuarioModule } from './usuario/usuario.module';
-//import { AutenticacaoService } from './autenticacao/autenticacao.service';
-import { AutenticacaoModule } from './autenticacao/autenticacao.module';
+import { EspecialidadeModule } from './especialidade/especialidade.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -32,19 +25,13 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
       migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
       migrationsRun: true,
     }),
-    ClinicaModule,
     EspecialidadeModule,
+    ClinicaModule,
     RegionalModule,
     UsuarioModule,
-    AutenticacaoModule,
+    AuthModule,
   ],
-  controllers: [
-    AppController,
-    ClinicaController,
-    EspecialidadeController,
-    RegionalController,
-    UsuarioController,
-  ],
-  providers: [AppService, ClinicaService, RegionalService], //AutenticacaoService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

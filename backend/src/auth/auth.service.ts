@@ -51,6 +51,43 @@ export class AuthService {
     };
   }
 
+  async refreshToken(token: string) {
+    try {
+      type JwtPayload = {
+        sub: string;
+        email: string;
+        tipo: 'ADMIN' | 'USER';
+      };
+
+      const payload = this.jwtService.verify<JwtPayload>(token, {
+        secret: process.env.JWT_REFRESH_SECRET || 'refresh-token',
+      });
+
+      if (
+        !payload ||
+        typeof payload.sub !== 'string' ||
+        typeof payload.email !== 'string' ||
+        (payload.tipo !== 'ADMIN' && payload.tipo !== 'USER')
+      ) {
+        throw new UnauthorizedException('Refresh token inválido');
+      }
+
+      const usuario = await this.usuarioService.findOne(payload.sub);
+      if (!usuario) {
+        throw new UnauthorizedException();
+      }
+
+      const newAccessToken = this.jwtService.sign(
+        { sub: usuario.id, email: usuario.email, tipo: usuario.tipo },
+        { secret: process.env.JWT_SECRET ?? 'chave-secreta', expiresIn: '15m' },
+      );
+
+      return { accessToken: newAccessToken };
+    } catch {
+      throw new UnauthorizedException('Refresh token inválido');
+    }
+  }
+
   validateLogin(dto: LoginDto) {
     if (!dto.email?.includes('@')) {
       throw new BadRequestException('E-mail inválido');

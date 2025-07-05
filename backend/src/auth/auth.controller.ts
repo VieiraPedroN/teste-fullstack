@@ -2,7 +2,7 @@ import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { CurrentUser } from './current-user.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { Usuario } from '../usuario/entities/usuario.entity';
 
 type AuthResponse = {
@@ -20,9 +20,14 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
+  @Post('refresh')
+  refresh(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refreshToken(refreshToken);
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  getProfile(@CurrentUser() user: Usuario) {
-    return user;
+  getProfile(@CurrentUser() usuario: Usuario) {
+    return usuario;
   }
 }
