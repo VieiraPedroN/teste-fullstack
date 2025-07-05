@@ -14,7 +14,6 @@ export class TabelaUsuario1751595064090 implements MigrationInterface {
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now()
       );
-      CREATE INDEX idx_usuarios_email ON usuarios(email);
     `);
   }
 
